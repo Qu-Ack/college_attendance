@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose')
+const apiRouter = require('./Routers/ApiRouter')
 require('dotenv').config();
 
 main().catch(err => console.log(err))
@@ -16,6 +17,8 @@ app.use(express.urlencoded({extended:true}))
 app.get('/' , (req,res) => {
     res.send("Hello from the api")
 })
+
+app.use('/api/' , apiRouter);
 
 
 
