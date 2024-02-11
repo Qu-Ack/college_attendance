@@ -6,6 +6,7 @@ const StudentSchema = new Schema({
     name: {type:String, required:true, length:{min:2}},
     studentid: {type:String, required:true, length:{min:12}},
     password:{type:String, required:true, length:{min:6}},
+    classes: [{type:Schema.Types.ObjectId, ref:"Class"}]
 })
 
 module.exports = mongoose.model("student", StudentSchema);

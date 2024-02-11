@@ -7,7 +7,7 @@ const jwt = require('jsonwebtoken')
 
 exports.sign_up = [
     body('name').trim().escape().isLength({ min: 2 }).withMessage("Name Should be at least 2 characters long"),
-    body('studentid').trim().escape().isLength({ min: 12 }).withMessage("Should Be A valid College Id").custom(userid => {
+    body('studentid').trim().escape().isLength({ min: 12 , max:12}).withMessage("Should Be A valid College Id").custom(userid => {
         return new Promise((resolve, reject) => {
             Student.findOne({ studentid: userid })
                 .then(idexists => {
@@ -69,7 +69,7 @@ exports.login = [
 
                 if (!student) {
                     res.status(200).json({
-                        errors: "Couldn't find a student with that ID",
+                        errors: "Couldn't find a teacher with that ID",
                     })
                 }
 
@@ -102,3 +102,18 @@ exports.login = [
         }
     })
 ] 
+
+
+
+exports.create_class = [
+    body("name").trim().escape(),
+    body("courseCode").trim().escape(),
+    body("section").trim().escape(),
+
+    asyncHandler(async function(req,res,next){
+        
+    })
+
+]
+
+
