@@ -8,5 +8,6 @@ router.post('/login', authController.login);
 router.post('/teacher' ,APIController.teacher )
 router.post('/class', APIController.Class)
 router.put('/teachertoclass', APIController.ClassToTeacher)
+router.get('/class', APIController.get_class)
 
 module.exports = router;
