@@ -88,7 +88,7 @@ exports.Class = [
 ]
 
 exports.get_class = asyncHandler(async function(req,res,next) {
-    const classes = Class.find({teacher:req.body.teacherID});
+    const classes = Class.find({teacher:req.params.teacherID});
 
     res.status(200).json({
         classes
