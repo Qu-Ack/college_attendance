@@ -87,7 +87,13 @@ exports.Class = [
     })
 ]
 
+exports.get_class = asyncHandler(async function(req,res,next) {
+    const classes = Class.find({teacher:req.body.teacherID});
 
+    res.status(200).json({
+        classes
+    })
+})
 // we need the object id of the teacher we want to assign the class to
 // we need the object id of the class we want to assign the teacher
 // we need to send both of these info to backend 
