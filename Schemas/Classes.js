@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-
 const Schema = mongoose.Schema;
 
 
@@ -8,7 +7,7 @@ const ClassesSchema = new Schema({
     classCode: {type:String, unique:true},
     students: [{type:Schema.Types.ObjectId, ref: 'student'}],
     lectures: [{type:Schema.Types.ObjectId, ref: 'Lecture'}],
-    teacher: {type:Schema.Types.ObjectId, ref:"Teacher"}
+    teacher: {type:Schema.Types.ObjectId, ref:"Teacher"}, 
 })
 
 

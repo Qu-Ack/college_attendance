@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 
 const LectureSchema = new Schema({
     lectureName: String, 
-    class: {type: Schema.Types.ObjectId, ref:"Class"},
+    class: {type: Schema.Types.ObjectId, ref:"Class", required:true},
     dateTime: Date,
     attendance: [{
         student:{type:Schema.Types.ObjectId, ref:"student"},

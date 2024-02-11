@@ -1,0 +1,94 @@
+const asyncHandler = require('express-async-handler');
+const Class = require('../Schemas/Classes')
+const { body, validationResult } = require('express-validator');
+const Teacher = require('../Schemas/Teacher');
+const mongoose = require('mongoose')
+exports.teacher = [
+    body('teacherName').trim().escape().isLength({ min: 3 }),
+    body("username").trim().escape(),
+    body("password"),
+
+    asyncHandler(async function (req, res, next) {
+        const errors = validationResult(req);
+
+        if (!errors.isEmpty()) {
+            res.status(200).json({
+                errors,
+            })
+        } else {
+            const teacher = new Teacher({
+                teacherName: req.body.teacherName,
+                username: req.body.username,
+                password: req.body.password,
+            })
+
+            await teacher.save();
+
+            res.status(200).json({
+                status: "success",
+                message: "Teacher created successfully"
+            })
+        }
+    })
+
+]
+
+
+exports.ClassToTeacher = asyncHandler(async function (req, res, next) {
+    try {
+
+        const teacher = await Teacher.findById(req.body.teacherID);
+        const cls = await Class.findById(req.body.classID);
+
+        console.log(teacher)
+        console.log(cls)
+
+        if(!teacher || !cls) {
+            res.status(200).json({
+                message:"Couldn't find teacher or class"
+            })
+        }
+
+        teacher.classes.push(cls._id);
+        cls.teacher = teacher._id;
+        await Promise.all([await teacher.save(), await cls.save()])
+
+        res.status(200).json({
+            status: "success",
+            message: "teacher assigned to the class"
+        })
+    } catch (err) {
+        res.status(500).json({
+            error: err.message
+        })
+    }
+
+
+})
+
+
+exports.Class = [
+    body("className").trim().escape(),
+    body("classCode").trim().escape(),
+
+
+    asyncHandler(async function (req, res, next) {
+        const cls = new Class({
+            className: req.body.className,
+            classCode: req.body.classCode
+        })
+
+        await cls.save();
+
+        res.status(200).json({
+            status: "success",
+            message: "class create successfully"
+        })
+    })
+]
+
+
+// we need the object id of the teacher we want to assign the class to
+// we need the object id of the class we want to assign the teacher
+// we need to send both of these info to backend 
+// where we will run a search for the specific teacher and update it's classes
