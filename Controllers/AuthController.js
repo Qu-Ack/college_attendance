@@ -55,7 +55,7 @@ exports.sign_up = [
 
 
 exports.login = [
-    body('studentid').trim().escape().isLength({ min: 12 }).withMessage("should be a valid college ID"),
+    body('studentid').trim().escape(),
     body('password'),
 
 
