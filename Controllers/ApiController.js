@@ -66,6 +66,18 @@ exports.ClassToTeacher = asyncHandler(async function (req, res, next) {
 
 })
 
+exports.get_single_class = asyncHandler(async function(req,res,next) {
+    const cls = await Class.findById(req.params.id);
+    if(!cls) {
+        res.status(500).json({
+            error: "An Error Occured"
+        })
+    }
+
+    res.status(200).json({
+        cls
+    })
+})
 
 exports.Class = [
     body("className").trim().escape(),
