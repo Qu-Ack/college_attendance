@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose')
+const cors = require('cors')
 const apiRouter = require('./Routers/ApiRouter')
 require('dotenv').config();
 
@@ -13,7 +14,7 @@ async function main() {
 
 app.use(express.json());
 app.use(express.urlencoded({extended:true}))
-
+app.use(cors());
 app.get('/' , (req,res) => {
     res.send("Hello from the api")
 })
