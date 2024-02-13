@@ -41,14 +41,10 @@ exports.verifyToken = async function (req, res, next) {
     if (typeof authHeader != 'undefined') {
         const token = authHeader.split(' ')[1];
         console.log(token)
-        jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
+        jwt.verify(token, process.env.SECRET, (err, user) => {
             if (err) {
                 return res.status(401).json({status: "Access is Denied"})
             }
-            res.json({
-                user
-            })
-            req.user = user
             next();
         });
     } else {
