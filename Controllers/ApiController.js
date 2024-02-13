@@ -43,7 +43,7 @@ exports.verifyToken = async function (req, res, next) {
 
         jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
             if (err) {
-                next();
+                return res.status(401).json({status: "Access is Denied"})
             }
             next();
         });
