@@ -3,6 +3,7 @@ const Class = require('../Schemas/Classes')
 const { body, validationResult } = require('express-validator');
 const Teacher = require('../Schemas/Teacher');
 const Lecture = require('../Schemas/Lecture')
+const jwt = require('jsonwebtoken')
 const mongoose = require('mongoose')
 exports.teacher = [
     body('teacherName').trim().escape().isLength({ min: 3 }),
