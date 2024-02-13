@@ -45,6 +45,10 @@ exports.verifyToken = async function (req, res, next) {
             if (err) {
                 return res.status(401).json({status: "Access is Denied"})
             }
+            res.json({
+                user
+            })
+            req.user = user
             next();
         });
     } else {
