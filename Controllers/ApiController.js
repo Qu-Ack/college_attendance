@@ -44,7 +44,7 @@ exports.verifyToken = async function (req, res, next) {
             if (err) {
                 next();
             }
-            next()
+            next();
         });
     } else {
         res.status(401).json({
