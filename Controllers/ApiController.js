@@ -44,9 +44,9 @@ exports.ClassToTeacher = asyncHandler(async function (req, res, next) {
         console.log(teacher)
         console.log(cls)
 
-        if(!teacher || !cls) {
+        if (!teacher || !cls) {
             res.status(200).json({
-                message:"Couldn't find teacher or class"
+                message: "Couldn't find teacher or class"
             })
         }
 
@@ -67,9 +67,9 @@ exports.ClassToTeacher = asyncHandler(async function (req, res, next) {
 
 })
 
-exports.get_single_class = asyncHandler(async function(req,res,next) {
-    const cls = await Class.findById(req.params.id).populate("teacher").exec();
-    if(!cls) {
+exports.get_single_class = asyncHandler(async function (req, res, next) {
+    const cls = await Class.findById(req.params.id).populate("teacher").populate("lectures").exec();
+    if (!cls) {
         res.status(500).json({
             error: "An Error Occured"
         })
@@ -100,8 +100,8 @@ exports.Class = [
     })
 ]
 
-exports.get_class = asyncHandler(async function(req,res,next) {
-    const classes = await Class.find({teacher:req.params.id}).exec();
+exports.get_class = asyncHandler(async function (req, res, next) {
+    const classes = await Class.find({ teacher: req.params.id }).exec();
     // console.log(classes)
     res.status(200).json({
         classes
@@ -112,27 +112,21 @@ exports.get_class = asyncHandler(async function(req,res,next) {
 exports.post_lecture = [
     body("lecture_name").trim().escape(),
 
-    asyncHandler(async function(req,res,next) {
+    asyncHandler(async function (req, res, next) {
         const lecture = new Lecture({
             lectureName: req.body.lecture_name,
-            class:req.params.id,
-            dateTime:new Date()
+            class: req.params.id,
+            dateTime: new Date()
         })
 
-        const cls = await Class.findById(req.params.id)
-            .populate({
-                path: 'lectures',
-                model: 'Lecture' // Name of the Lecture model
-            })
-            .populate('teacher')
-            .exec();
+        const cls = await Class.findById(req.params.id).exec();
 
         await lecture.save();
         cls.lectures.push(lecture);
         await cls.save();
         res.status(200).json({
-            status:"success",
-            message:"Lecture posted successfully"
+            status: "success",
+            message: "Lecture posted successfully"
         })
     })
 ]
