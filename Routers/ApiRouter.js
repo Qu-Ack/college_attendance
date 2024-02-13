@@ -12,5 +12,6 @@ router.get('/class/:id', APIController.get_class)
 router.get('/singleclass/:id', APIController.get_single_class);
 router.post('/teacher/signup', authController.teacher_signup);
 router.post('/teacher/login', authController.teacher_login);
+router.post('/class/lecture/:id', APIController.post_lecture)
 
 module.exports = router;

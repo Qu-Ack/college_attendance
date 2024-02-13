@@ -2,6 +2,7 @@ const asyncHandler = require('express-async-handler');
 const Class = require('../Schemas/Classes')
 const { body, validationResult } = require('express-validator');
 const Teacher = require('../Schemas/Teacher');
+const Lecture = require('../Schemas/Lecture')
 const mongoose = require('mongoose')
 exports.teacher = [
     body('teacherName').trim().escape().isLength({ min: 3 }),
@@ -106,6 +107,26 @@ exports.get_class = asyncHandler(async function(req,res,next) {
         classes
     })
 })
+
+
+exports.post_lecture = [
+    body("lecture_name").trim().escape(),
+
+    asyncHandler(async function(req,res,next) {
+        const lecture = new Lecture({
+            lectureName: req.body.lecture_name,
+            class:req.params.id,
+            dateTime:new Date()
+        })
+
+        await lecture.save();
+
+        res.status(200).json({
+            status:"success",
+            message:"Lecture posted successfully"
+        })
+    })
+]
 // we need the object id of the teacher we want to assign the class to
 // we need the object id of the class we want to assign the teacher
 // we need to send both of these info to backend 
