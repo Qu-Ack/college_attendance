@@ -119,7 +119,7 @@ exports.post_lecture = [
             dateTime:new Date()
         })
 
-        const cls = await Class.findById(req.params.id).exec();
+        const cls = await Class.findById(req.params.id).populate("lectures").populate("teacher").exec();
 
         await lecture.save();
         cls.lectures.push(lecture);
