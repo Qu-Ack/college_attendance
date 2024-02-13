@@ -35,7 +35,7 @@ exports.teacher = [
 ]
 
 exports.verifyToken = async function (req, res, next) {
-    // res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Origin", "*");
     const authHeader = req.headers.authorization;
     if (typeof authHeader != 'undefined') {
         const token = authHeader.split(' ')[1];
