@@ -119,8 +119,11 @@ exports.post_lecture = [
             dateTime:new Date()
         })
 
-        await lecture.save();
+        const cls = await Class.findById(req.params.id).exec();
 
+        await lecture.save();
+        cls.lectures.push(lecture);
+        await cls.save();
         res.status(200).json({
             status:"success",
             message:"Lecture posted successfully"
