@@ -34,6 +34,25 @@ exports.teacher = [
 
 ]
 
+exports.verifyToken = async function (req, res, next) {
+    // res.header("Access-Control-Allow-Origin", "*");
+    const authHeader = req.headers.authorization;
+    if (typeof authHeader != 'undefined') {
+        const token = authHeader.split(' ')[1];
+
+        jwt.verify(token, process.env.TOKEN_SECRET, (err, user) => {
+            if (err) {
+                next();
+            }
+            next()
+        });
+    } else {
+        res.status(401).json({
+            status: "Access Denied"
+        })
+    }
+}
+
 
 exports.ClassToTeacher = asyncHandler(async function (req, res, next) {
     try {
