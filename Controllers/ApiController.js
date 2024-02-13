@@ -67,7 +67,7 @@ exports.ClassToTeacher = asyncHandler(async function (req, res, next) {
 })
 
 exports.get_single_class = asyncHandler(async function(req,res,next) {
-    const cls = await Class.findById(req.params.id);
+    const cls = await Class.findById(req.params.id).populate("teacher").exec();
     if(!cls) {
         res.status(500).json({
             error: "An Error Occured"
