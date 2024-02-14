@@ -189,6 +189,34 @@ exports.mark_attendance = asyncHandler(async function (req, res, next) {
 });
 
 
+exports.addstud_to_class = asyncHandler(async function(req,res,next) {
+    const cls = await Class.findById(req.body.classID);
+    const stud = await Student.findById(req.body.studentID);
+
+    if(!cls) {
+        res.status(200).json({
+            status:"Class not found"
+        })
+    }
+
+    if (!stud) {
+        res.status(200).json({
+            status:"Student not found"
+        })
+    }
+
+
+    cls.students.push(stud);
+    stud.classes.push(cls);
+    await cls.save();
+    await stud.save();
+
+    res.status(200).json({
+        status:"Class Added successfully"
+    })
+})
+
+
 // we need the object id of the teacher we want to assign the class to
 // we need the object id of the class we want to assign the teacher
 // we need to send both of these info to backend 
