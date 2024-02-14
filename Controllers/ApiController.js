@@ -206,8 +206,8 @@ exports.addstud_to_class = asyncHandler(async function(req,res,next) {
     }
 
 
-    cls.students.push(stud);
-    stud.classes.push(cls);
+    cls.students.push(stud._id);
+    stud.classes.push(cls._id);
     await cls.save();
     await stud.save();
 
