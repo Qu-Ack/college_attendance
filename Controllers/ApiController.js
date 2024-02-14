@@ -4,7 +4,8 @@ const { body, validationResult } = require('express-validator');
 const Teacher = require('../Schemas/Teacher');
 const Lecture = require('../Schemas/Lecture')
 const jwt = require('jsonwebtoken')
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
+const Student = require('../Schemas/Student');
 exports.teacher = [
     body('teacherName').trim().escape().isLength({ min: 3 }),
     body("username").trim().escape(),
@@ -137,11 +138,17 @@ exports.post_lecture = [
         const lecture = new Lecture({
             lectureName: req.body.lecture_name,
             class: req.params.id,
-            dateTime: new Date()
+            dateTime: new Date(),
+            attendance:[],
+
         })
 
         const cls = await Class.findById(req.params.id).exec();
-
+        cls.students.map((stud) => {
+            lecture.attendance.push({
+                student:stud,
+            })
+        })
         await lecture.save();
         cls.lectures.push(lecture);
         await cls.save();
@@ -151,6 +158,37 @@ exports.post_lecture = [
         })
     })
 ]
+
+exports.mark_attendance = asyncHandler(async function (req, res, next) {
+    const lecture = await Lecture.findById(req.body.lectureID);
+
+    if (!lecture) {
+        return res.status(404).json({
+            status: "error",
+            message: "Lecture not found"
+        });
+    }
+
+    const studentRecord = lecture.attendance.find(record => record.student.toString() === req.body.studentID);
+
+    if (!studentRecord) {
+        return res.status(404).json({
+            status: "error",
+            message: "Student not found in attendance list"
+        });
+    }
+
+    studentRecord.status = "P";
+
+    await lecture.save();
+
+    res.status(200).json({
+        status: "success",
+        message: "Attendance marked successfully !!"
+    });
+});
+
+
 // we need the object id of the teacher we want to assign the class to
 // we need the object id of the class we want to assign the teacher
 // we need to send both of these info to backend 

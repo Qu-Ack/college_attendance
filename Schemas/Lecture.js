@@ -9,7 +9,7 @@ const LectureSchema = new Schema({
     dateTime: Date,
     attendance: [{
         student:{type:Schema.Types.ObjectId, ref:"student"},
-        status:String,
+        status:{type:String, default:"A"},
     }]
 })
 
