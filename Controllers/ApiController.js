@@ -36,7 +36,7 @@ exports.teacher = [
 
 ]
 
-exports.verifyToken = async function (req, res, next) {
+exports.verify_teacher = async function (req, res, next) {
     // res.header("Access-Control-Allow-Origin", "*");
     const authHeader = req.headers.authorization;
     if (typeof authHeader != 'undefined') {
@@ -46,8 +46,12 @@ exports.verifyToken = async function (req, res, next) {
             if (err) {
                 return res.status(401).json({status: "Access is Denied"})
             }
-            req.auth = user.id
-            next();
+            req.auth = user._id
+            if(user.role == "teacher") {
+                next();
+            } else {
+                res.status(403).json({status:"Forbidden"})
+            }
         });
     } else {
         res.status(401).json({
@@ -187,6 +191,62 @@ exports.mark_attendance = asyncHandler(async function (req, res, next) {
         message: "Attendance marked successfully !!"
     });
 });
+
+
+exports.verify_admin = async function(req,res,next) {
+    const authHeader = req.headers.authorization;
+    if (typeof authHeader != 'undefined') {
+        const token = authHeader.split(' ')[1];
+        console.log(token)
+        jwt.verify(token, process.env.SECRET, (err, user) => {
+            if (err) {
+                return res.status(401).json({status: "Access is Denied"})
+            }
+            req.auth = user._id
+
+            if(user.role == "admin") {
+                next();
+            } else {
+                res.status(403).json({
+                    status: "Forbidden"
+                })
+            }
+            
+        });
+    } else {
+        res.status(401).json({
+            status: "Access Denied"
+        })
+    }
+}
+
+
+exports.verify_student = async function(req,res,next) {
+    const authHeader = req.headers.authorization;
+    if (typeof authHeader != 'undefined') {
+        const token = authHeader.split(' ')[1];
+        console.log(token)
+        jwt.verify(token, process.env.SECRET, (err, user) => {
+            if (err) {
+                return res.status(401).json({status: "Access is Denied"})
+            }
+            req.auth = user._id
+
+            if(user.role == "student") {
+                next();
+            } else {
+                res.status(403).json({
+                    status: "Forbidden"
+                })
+            }
+            
+        });
+    } else {
+        res.status(401).json({
+            status: "Access Denied"
+        })
+    }
+}
 
 
 exports.addstud_to_class = asyncHandler(async function(req,res,next) {

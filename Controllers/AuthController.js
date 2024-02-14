@@ -82,7 +82,7 @@ exports.login = [
                     })
                 }
 
-                const token = jwt.sign({name:student.name, studentid:student.studentid , id:student._id} , process.env.SECRET, {
+                const token = jwt.sign({name:student.name, studentid:student.studentid , id:student._id, role:student.role} , process.env.SECRET, {
                     expiresIn: 1000 * 60 * 60
                 });
                 res.status(200).json({
@@ -179,7 +179,7 @@ exports.teacher_login = [
                     })
                 }
 
-                const token = jwt.sign({name:teacher.name, username:teacher.username , id:teacher._id} , process.env.SECRET, {
+                const token = jwt.sign({name:teacher.name, username:teacher.username , id:teacher._id, role:teacher.role} , process.env.SECRET, {
                     expiresIn: 1000 * 60 * 60
                 });
                 res.status(200).json({

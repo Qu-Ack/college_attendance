@@ -6,7 +6,8 @@ const TeacherSchema = new Schema({
     teacherName: String,
     username: {type:String, required:true},
     password: {type:String, length:{min:6}},
-    classes: [{type:Schema.Types.ObjectId, ref:"Class"}]
+    classes: [{type:Schema.Types.ObjectId, ref:"Class"}],
+    role:{type:String, default:"teacher"}
 })
 
 module.exports = mongoose.model("Teacher", TeacherSchema);

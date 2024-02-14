@@ -8,12 +8,12 @@ router.post('/login', authController.login);
 router.post('/teacher' ,APIController.teacher )
 router.post('/class', APIController.Class)
 router.put('/teachertoclass', APIController.ClassToTeacher)
-router.get('/class/:id', APIController.verifyToken, APIController.get_class)
-router.get('/singleclass/:id',APIController.verifyToken, APIController.get_single_class);
+router.get('/class/:id', APIController.verify_teacher, APIController.get_class)
+router.get('/singleclass/:id',APIController.verify_teacher, APIController.get_single_class);
 router.post('/teacher/signup', authController.teacher_signup);
 router.post('/teacher/login', authController.teacher_login);
-router.post('/class/lecture/:id',APIController.verifyToken, APIController.post_lecture)
-router.post('/attendance', APIController.verifyToken, APIController.mark_attendance);
+router.post('/class/lecture/:id',APIController.verify_teacher, APIController.post_lecture)
+router.post('/attendance', APIController.verify_student, APIController.mark_attendance);
 router.post('/addstudtoclass', APIController.addstud_to_class)
 
 module.exports = router;
