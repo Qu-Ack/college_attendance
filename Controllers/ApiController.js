@@ -193,6 +193,19 @@ exports.mark_attendance = asyncHandler(async function (req, res, next) {
 });
 
 
+exports.get_stud = asyncHandler(async function(req,res,next) {
+    const stud = Student.findById(req.params.id)
+    if(!stud) {
+        res.status(500).json({
+            status:"Error"
+        })
+    }
+
+    res.status(200).json({
+        stud,
+    })
+})
+
 exports.verify_admin = async function(req,res,next) {
     const authHeader = req.headers.authorization;
     if (typeof authHeader != 'undefined') {
