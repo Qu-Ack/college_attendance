@@ -194,7 +194,7 @@ exports.mark_attendance = asyncHandler(async function (req, res, next) {
 
 
 exports.get_stud = asyncHandler(async function(req,res,next) {
-    const stud = Student.findById(req.params.id)
+    const stud = await Student.findById(req.params.studid).populate("classes")
     if(!stud) {
         res.status(500).json({
             status:"Error"
