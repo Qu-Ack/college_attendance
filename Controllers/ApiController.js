@@ -193,11 +193,6 @@ exports.addstud_to_class = asyncHandler(async function(req,res,next) {
     const cls = await Class.findById(req.body.classID);
     const stud = await Student.findById(req.body.studentID);
 
-    res.json({
-        cls, 
-        stud,
-    })
-
     if(!cls) {
         res.status(200).json({
             status:"Class not found"
