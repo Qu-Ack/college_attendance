@@ -294,7 +294,7 @@ exports.get_lecture = asyncHandler(async function(req,res,next) {
     const lecture = await Lecture.findById(req.params.lectureid)
                                  .populate({
                                      path: 'attendance.student',
-                                     model: 'Student'
+                                     model: 'student'
                                  })
                                  .exec();
 
