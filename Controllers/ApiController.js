@@ -291,7 +291,13 @@ exports.addstud_to_class = asyncHandler(async function(req,res,next) {
 })
 
 exports.get_lecture = asyncHandler(async function(req,res,next) {
-    const lecture = await Lecture.findById(req.params.lectureid).populate("attendance").exec();
+    const lecture = await Lecture.findById(req.params.lectureid)
+                                 .populate({
+                                     path: 'attendance.student',
+                                     model: 'Student'
+                                 })
+                                 .exec();
+
     if(!lecture) {
         res.status(500).json({
             error:"Internal Server Error"
