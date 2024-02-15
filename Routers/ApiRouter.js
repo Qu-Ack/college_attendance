@@ -16,5 +16,6 @@ router.post('/class/lecture/:id',APIController.verify_teacher, APIController.pos
 router.post('/attendance', APIController.verify_student, APIController.mark_attendance);
 router.post('/addstudtoclass', APIController.addstud_to_class)
 router.get('/student/:studid', APIController.verify_student, APIController.get_stud)
+router.get("/lecture/:lectureid", APIController.verify_teacher, APIController.get_lecture)
 
 module.exports = router;

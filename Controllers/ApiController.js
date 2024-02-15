@@ -129,7 +129,6 @@ exports.Class = [
 exports.get_class = asyncHandler(async function (req, res, next) {
     const classes = await Class.find({ teacher: req.params.id }).exec();
     const teacher = await Teacher.find({_id:req.params.id}).exec()
-    // console.log(classes)
     res.status(200).json({
         classes,
         teacher
@@ -288,6 +287,19 @@ exports.addstud_to_class = asyncHandler(async function(req,res,next) {
 
     res.status(200).json({
         status:"Class Added successfully"
+    })
+})
+
+exports.get_lecture = asyncHandler(async function(req,res,next) {
+    const lecture = await Lecture.find(req.params.lectureid).populate("attendance").exec();
+    if(!lecture) {
+        res.status(500).json({
+            error:"Internal Server Error"
+        })
+    }
+
+    res.status(200).json({
+        lecture
     })
 })
 
