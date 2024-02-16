@@ -17,10 +17,7 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIo(server)
 
-app.use(cors({
-    origin: ["https://your-frontend-app-domain.com", "http://localhost:5173"], // Replace with your actual origin
-    credentials: true
-  }));
+app.use(cors());
 
 app.use(express.json());
 app.use(express.urlencoded({extended:true}))
