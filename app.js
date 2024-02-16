@@ -28,6 +28,15 @@ app.use('/api/' , apiRouter);
 
 io.on('connection', (socket) => {
     console.log(`A Client Connected ${socket.id}`)
+
+    socket.on('qrCodeScanned', ({ result }) => {
+        // Broadcast the scan result to all connected clients
+        io.emit('qrCodeScanned', { result });
+    });
+
+    socket.on('disconnect', () => {
+        console.log('User disconnected');
+    });
 })
 
 // error handling

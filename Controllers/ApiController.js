@@ -167,7 +167,8 @@ exports.post_lecture = [
 ]
 
 exports.mark_attendance = asyncHandler(async function (req, res, next) {
-    const lecture = await Lecture.findById(req.body.lectureID);
+    const lecid = req.body.lectureID.split("+")[0]
+    const lecture = await Lecture.findById(lecid);
 
     if (!lecture) {
         return res.status(404).json({
