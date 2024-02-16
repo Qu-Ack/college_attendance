@@ -253,7 +253,7 @@ exports.login = [
 ] 
 
 exports.teacher_signup = [
-    body('name').trim().escape().isLength({ min: 2 }).withMessage("Name Should be at least 2 characters long"),
+    body('teacherName').trim().escape().isLength({ min: 2 }).withMessage("Name Should be at least 2 characters long"),
     body('username').trim().escape().isLength({ min:6 , max:12}).withMessage("Should Be A valid username").custom(userid => {
         return new Promise((resolve, reject) => {
             Teacher.findOne({ username: userid })

@@ -9,7 +9,7 @@ const Student = require('../Schemas/Student');
 
 
 exports.teacher = [
-    body('teacherName').trim().escape().isLength({ min: 3 }),
+    body('teacherName').trim().escape(),
     body("username").trim().escape(),
     body("password"),
 
