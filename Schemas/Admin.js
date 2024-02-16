@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 const AdminSchema = new Schema({
     username: String,
-    password, String,
+    password: String,
     role:{type:String, default:'admin'}
 })
 
