@@ -60,7 +60,7 @@ exports.sign_up = [
 exports.admin_sign_up = [
     body('username').trim().escape().custom(userid => {
         return new Promise((resolve, reject) => {
-            Student.findOne({ studentid: userid })
+            Admin.findOne({ username: userid })
                 .then(idexists => {
                     if (idexists) {
                         reject(new Error("Id Already Exists"))
@@ -95,7 +95,7 @@ exports.admin_sign_up = [
 
             res.status(200).json({
                 errors: errors.array(),
-                student,
+                admin,
             })
         }
     })
