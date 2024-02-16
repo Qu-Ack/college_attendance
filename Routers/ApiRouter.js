@@ -5,7 +5,7 @@ const APIController = require('../Controllers/ApiController')
 
 router.post('/signup', authController.sign_up);
 router.post('/login', authController.login);
-router.post('/teacher', APIController.verify_admin,)
+router.post('/teacher', APIController.verify_admin, authController.teacher_signup)
 router.post('/class', APIController.verify_admin, APIController.Class)
 router.put('/teachertoclass', APIController.ClassToTeacher)
 router.get('/class/:id', APIController.verify_teacher, APIController.get_class)
