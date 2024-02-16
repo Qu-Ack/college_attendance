@@ -1,8 +1,10 @@
 const express = require('express');
 const app = express();
+const http = require('http')
+const socketIo = require('socket.io')
 const mongoose = require('mongoose')
 const cors = require('cors')
-const apiRouter = require('./Routers/ApiRouter')
+const apiRouter = require('./Routers/ApiRouter');
 require('dotenv').config();
 
 main().catch(err => console.log(err))
@@ -11,6 +13,8 @@ async function main() {
     console.log("DB CONNECTED ...")
 }
 
+const server = http.createServer(app);
+const io = socketIo(server)
 
 app.use(express.json());
 app.use(express.urlencoded({extended:true}))
@@ -22,7 +26,9 @@ app.get('/' , (req,res) => {
 app.use('/api/' , apiRouter);
 
 
-
+io.on('connection', (socket) => {
+    console.log(`A Client Connected ${socket.id}`)
+})
 
 // error handling
 
@@ -45,6 +51,8 @@ app.use((request,response, next) => {
 
 
 
-app.listen(process.env.PORT || 5000, '0.0.0.0', () => {
+server.listen(process.env.PORT || 5000, '0.0.0.0', () => {
     console.log("server started....")
 })
+
+app.set('io', io);
