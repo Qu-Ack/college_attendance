@@ -39,7 +39,7 @@ io.on('connection', (socket) => {
 
     socket.on('qrCodeScanned', ({ result }) => {
         // Broadcast the scan result to all connected clients
-        io.emit('qrCodeScanned', { result });
+        io.broadcast.emit('qrCodeScanned', { result });
     });
 
     socket.on('disconnect', () => {
