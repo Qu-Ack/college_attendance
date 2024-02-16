@@ -13,8 +13,7 @@ async function main() {
     console.log("DB CONNECTED ...")
 }
 
-const server = http.createServer(app);
-const io = socketIo(server)
+
 
 app.use(express.json());
 app.use(express.urlencoded({extended:true}))
@@ -22,6 +21,9 @@ app.use(cors());
 app.get('/' , (req,res) => {
     res.send("Hello from the api")
 })
+
+const server = http.createServer(app);
+const io = socketIo(server)
 
 app.use('/api/' , apiRouter);
 
