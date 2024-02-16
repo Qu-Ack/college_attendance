@@ -6,6 +6,8 @@ const Lecture = require('../Schemas/Lecture')
 const jwt = require('jsonwebtoken')
 const mongoose = require('mongoose');
 const Student = require('../Schemas/Student');
+
+
 exports.teacher = [
     body('teacherName').trim().escape().isLength({ min: 3 }),
     body("username").trim().escape(),
@@ -310,6 +312,31 @@ exports.get_lecture = asyncHandler(async function(req,res,next) {
 })
 
 
+exports.get_teachers = asyncHandler(async function(req,res,next) {
+    const teachers = await Teacher.find({}).exec();
+    res.status(200).json({
+        teachers
+    })
+})
+
+
+
+
+exports.get_classes = asyncHandler(async function(req,res,next) {
+    const classes = await Class.find({}).exec();
+    res.status(200).json({
+        classes
+    })
+})
+
+
+exports.get_students = asyncHandler(async function(req,res,next) {
+    const students = await Student.find({}).exec();
+    res.status(200).json({
+        students
+    })
+    
+})
 // we need the object id of the teacher we want to assign the class to
 // we need the object id of the class we want to assign the teacher
 // we need to send both of these info to backend 
