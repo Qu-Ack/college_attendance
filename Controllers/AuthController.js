@@ -79,7 +79,7 @@ exports.admin_sign_up = [
         const errors = validationResult(req);
 
         if (errors.isEmpty()) {
-            bcrypt.hash(req.body.password, 10, async (err, hash) => {
+            bcrypt.hash(req.body.password, 10, async (err, hash) => {   
                 const admin = new Admin({
                     username: req.body.username,
                     password: hash

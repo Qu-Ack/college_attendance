@@ -20,7 +20,7 @@ router.get("/lecture/:lectureid", APIController.verify_teacher, APIController.ge
 router.post('/admin/signup', authController.admin_sign_up);
 router.post('/admin/login', authController.admin_login)
 // router.post('/admin/login', authController.admin_login);
-// router.get('/get_classes', authController.verify_admin, APIController.get_classes)
+router.get('/get_classes', authController.verify_admin, APIController.get_classes)
 // router.get("/get_teachers", authController.verify_admin, APIController.get_teachers)
 // router.get('/get_students', authController.verify_admin, APIController.get_students)
 
