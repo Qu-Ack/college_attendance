@@ -15,7 +15,13 @@ async function main() {
 const app = express();
 
 const server = http.createServer(app);
-const io = socketIo(server)
+const io = require('socket.io')(server, {
+    cors: {
+      origin: '*',
+    }
+  });
+
+
 app.use(cors());
 
 app.use(express.json());
