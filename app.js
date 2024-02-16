@@ -18,13 +18,12 @@ const server = http.createServer(app);
 const io = require('socket.io')(server, {
     cors: {
       origin: '*',
+      credentials:true,
     }
   });
 
 
-app.use(cors({
-    credentials:true
-}));
+app.use(cors());
 
 app.use(express.json());
 app.use(express.urlencoded({extended:true}))
