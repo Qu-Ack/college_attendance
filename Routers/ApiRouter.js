@@ -5,14 +5,14 @@ const APIController = require('../Controllers/ApiController')
 
 router.post('/signup', authController.sign_up);
 router.post('/login', authController.login);
-router.post('/teacher',APIController.verify_admin , )
+router.post('/teacher', APIController.verify_admin,)
 router.post('/class', APIController.verify_admin, authController.teacher_signup)
 router.put('/teachertoclass', APIController.ClassToTeacher)
 router.get('/class/:id', APIController.verify_teacher, APIController.get_class)
-router.get('/singleclass/:id',APIController.verify_teacher, APIController.get_single_class);
+router.get('/singleclass/:id', APIController.verify_teacher, APIController.get_single_class);
 router.post('/teacher/signup', authController.teacher_signup);
 router.post('/teacher/login', authController.teacher_login);
-router.post('/class/lecture/:id',APIController.verify_teacher, APIController.post_lecture)
+router.post('/class/lecture/:id', APIController.verify_teacher, APIController.post_lecture)
 router.post('/attendance', APIController.verify_student, APIController.mark_attendance);
 router.post('/addstudtoclass', APIController.addstud_to_class)
 router.get('/student/:studid', APIController.verify_student, APIController.get_stud)
