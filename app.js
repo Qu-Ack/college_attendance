@@ -17,6 +17,7 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIo(server)
 
+io.origins('*:*');
 app.use(cors());
 
 app.use(express.json());
