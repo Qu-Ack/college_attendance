@@ -118,7 +118,7 @@ exports.admin_login = [
 
                 if (!admin) {
                     res.status(200).json({
-                        errors: "Couldn't find a student with that ID",
+                        errors: "Incorrect username",
                     })
                 }
 
