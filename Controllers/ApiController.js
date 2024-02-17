@@ -180,13 +180,11 @@ exports.mark_attendance = asyncHandler(async function (req, res, next) {
             message: "Lecture not found"
         });
     }
-    lecture.randvalues.map((rdval) => {
-        if (randval == rdval) {
-            return res.status(500).json({
-                error: "Qr INVALID"
-            })
-        }
-    })
+    if (lecture.randvalues.includes(randval)) {
+        return res.status(500).json({
+            error: "Rand value already exists"
+        });
+    }
 
     lecture.randvalues.push(randval);
 
