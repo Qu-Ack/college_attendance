@@ -315,7 +315,7 @@ exports.teacher_login = [
 
                 if (!teacher) {
                     res.status(200).json({
-                        errors: "Couldn't find a student with that ID",
+                        errors: "Couldn't find a teacher with that username",
                     })
                 }
 
