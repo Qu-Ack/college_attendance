@@ -9,7 +9,7 @@ const Admin = require('../Schemas/Admin');
 
 exports.sign_up = [
     body('name').trim().escape().isLength({ min: 2 }).withMessage("Name Should be at least 2 characters long"),
-    body('studentid').trim().escape().isLength({ min: 12 , max:12}).withMessage("Should Be A valid College Id").custom(userid => {
+    body('studentid').trim().escape().custom(userid => {
         return new Promise((resolve, reject) => {
             Student.findOne({ studentid: userid })
                 .then(idexists => {
