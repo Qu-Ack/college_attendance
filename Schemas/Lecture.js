@@ -10,7 +10,10 @@ const LectureSchema = new Schema({
     attendance: [{
         student:{type:Schema.Types.ObjectId, ref:"student"},
         status:{type:String, default:"A"},
-    }]
+    }],
+    randvalues: [
+        {type:String, unique:true}
+    ]
 })
 
 

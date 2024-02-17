@@ -171,39 +171,45 @@ exports.post_lecture = [
 exports.mark_attendance = asyncHandler(async function (req, res, next) {
     const lecid = req.body.lectureID.split("+")[0]
     const randval = req.body.lectureID.split("+")[1]
-    if (randval == qrval) {
-        res.status(200).json({
-            error: "Invalid QR"
-        })
-    } else {
-        qrval = randval;
-        const lecture = await Lecture.findById(lecid);
-
-        if (!lecture) {
-            return res.status(404).json({
-                status: "error",
-                message: "Lecture not found"
-            });
-        }
-
-        const studentRecord = lecture.attendance.find(record => record.student.toString() === req.body.studentID);
-
-        if (!studentRecord) {
-            return res.status(404).json({
-                status: "error",
-                message: "Student not found in attendance list"
-            });
-        }
-
-        studentRecord.status = "P";
-
-        await lecture.save();
-
-        res.status(200).json({
-            status: "success",
-            message: "Attendance marked successfully !!"
+    // const alrandval = await Lecture.find({ _id: lecid }).exec();
+    const lecture = await Lecture.findById(lecid);
+    
+    if (!lecture) {
+        return res.status(404).json({
+            status: "error",
+            message: "Lecture not found"
         });
     }
+    lecture.randvalues.map((rdval) => {
+        if (randval == rdval) {
+            res.status(200).json({
+                error: "Qr INVALID"
+            })
+        }
+    })
+
+    lecture.randvalues.push(randval);
+
+
+
+    const studentRecord = lecture.attendance.find(record => record.student.toString() === req.body.studentID);
+
+    if (!studentRecord) {
+        return res.status(404).json({
+            status: "error",
+            message: "Student not found in attendance list"
+        });
+    }
+
+    studentRecord.status = "P";
+
+    await lecture.save();
+
+    res.status(200).json({
+        status: "success",
+        message: "Attendance marked successfully !!"
+    });
+
 });
 
 
