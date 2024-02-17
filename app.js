@@ -39,8 +39,8 @@ io.on('connection', (socket) => {
     console.log(`A Client Connected ${socket.id}`)
 
     socket.on('qrCodeScanned', ({ result }) => {
-        // Broadcast the scan result to all connected clients
-        io.broadcast.emit('qrCodeScanned', { result });
+        // Broadcast the scan result to all connected clients except the sender
+        socket.broadcast.emit('qrCodeScanned', { result });
     });
 
     socket.on('disconnect', () => {
