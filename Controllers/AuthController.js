@@ -277,7 +277,7 @@ exports.teacher_signup = [
         if (errors.isEmpty()) {
             bcrypt.hash(req.body.password, 10, async (err, hash) => {
                 const teacher = new Teacher({
-                    teacherName: req.body.name,
+                    teacherName: req.body.teacherName,
                     username: req.body.username,
                     password: hash
                 })
@@ -287,7 +287,7 @@ exports.teacher_signup = [
             })
         } else {
             const teacher = new Teacher({
-                teacherName: req.body.name,
+                teacherName: req.body.teacherName,
                 username: req.body.studentid,
             })
 
