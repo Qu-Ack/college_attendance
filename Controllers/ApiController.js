@@ -80,6 +80,12 @@ exports.ClassToTeacher = asyncHandler(async function (req, res, next) {
             })
         }
 
+        if(teacher.classes.includes(cls._id)) {
+            return res.status(200).json({
+                error:"Teacher Already assigned to the class"
+            })
+        }
+
         teacher.classes.push(cls._id);
         cls.teacher = teacher._id;
         await Promise.all([await teacher.save(), await cls.save()])
