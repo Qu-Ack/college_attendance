@@ -182,7 +182,7 @@ exports.mark_attendance = asyncHandler(async function (req, res, next) {
     }
     lecture.randvalues.map((rdval) => {
         if (randval == rdval) {
-            res.status(200).json({
+            res.status(500).json({
                 error: "Qr INVALID"
             })
         }
