@@ -146,6 +146,18 @@ exports.get_class = asyncHandler(async function (req, res, next) {
 })
 
 
+
+function generateRandomString(length) {
+    const charset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let randomString = '';
+    for (let i = 0; i < length; i++) {
+        const randomIndex = Math.floor(Math.random() * charset.length);
+        randomString += charset[randomIndex];
+    }
+    return randomString;
+}
+
+
 exports.post_lecture = [
     body("lecture_name").trim().escape(),
 
@@ -165,6 +177,8 @@ exports.post_lecture = [
                 student: stud,
             })
         })
+
+        lecture.randvalues.push(generateRandomString(20))
         await lecture.save();
         cls.lectures.push(lecture);
         await cls.save();
