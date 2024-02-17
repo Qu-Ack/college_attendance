@@ -12,7 +12,7 @@ const LectureSchema = new Schema({
         status:{type:String, default:"A"},
     }],
     randvalues: [
-        {type:String, unique:true}
+        {type:String}
     ]
 })
 
