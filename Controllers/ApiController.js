@@ -205,7 +205,7 @@ exports.mark_attendance = asyncHandler(async function (req, res, next) {
 
 
         if (lecture.randvalues.includes(randval)) {
-            return res.status(200).json({
+            return res.status(500).json({
                 error: "Rand value already exists"
             });
         }
