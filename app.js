@@ -38,9 +38,9 @@ app.use('/api/' , apiRouter);
 io.on('connection', (socket) => {
     console.log(`A Client Connected ${socket.id}`)
 
-    socket.on('qrCodeScanned', ({ emmitdata }) => {
+    socket.on('qrCodeScanned', (emmitdata ) => {
         // Broadcast the scan result to all connected clients except the sender
-        socket.broadcast.emit('qrCodeScanned', { emmitdata });
+        socket.broadcast.emit('qrCodeScanned',  emmitdata );
     });
 
     socket.on('disconnect', () => {
