@@ -131,7 +131,7 @@ exports.Class = [
 
         res.status(200).json({
             status: "success",
-            message: "class create successfully"
+            message: "Subject Created Successfully"
         })
     })
 ]
