@@ -173,17 +173,21 @@ exports.mark_attendance = asyncHandler(async function (req, res, next) {
     const randval = req.body.lectureID.split("+")[1]
     // const alrandval = await Lecture.find({ _id: lecid }).exec();
     const lecture = await Lecture.findById(lecid);
-    
+
     if (!lecture) {
         return res.status(404).json({
             status: "error",
             message: "Lecture not found"
         });
     }
-    if (lecture.randvalues.includes(randval)) {
-        return res.status(500).json({
-            error: "Rand value already exists"
-        });
+    if (randval) {
+
+
+        if (lecture.randvalues.includes(randval)) {
+            return res.status(500).json({
+                error: "Rand value already exists"
+            });
+        }
     }
 
     lecture.randvalues.push(randval);
