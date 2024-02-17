@@ -8,6 +8,8 @@ const mongoose = require('mongoose');
 const Student = require('../Schemas/Student');
 
 
+const qrval = "SDFKJHDSFKJHSDFKJDHSFKLJDHSFKLJDHSFKJ";
+
 exports.teacher = [
     body('teacherName').trim().escape(),
     body("username").trim().escape(),
@@ -46,13 +48,13 @@ exports.verify_teacher = async function (req, res, next) {
         // console.log(token)
         jwt.verify(token, process.env.SECRET, (err, user) => {
             if (err) {
-                return res.status(401).json({status: "Access is Denied"})
+                return res.status(401).json({ status: "Access is Denied" })
             }
             req.auth = user._id
-            if(user.role == "teacher") {
+            if (user.role == "teacher") {
                 next();
             } else {
-                res.status(403).json({status:"Forbidden"})
+                res.status(403).json({ status: "Forbidden" })
             }
         });
     } else {
@@ -130,7 +132,7 @@ exports.Class = [
 
 exports.get_class = asyncHandler(async function (req, res, next) {
     const classes = await Class.find({ teacher: req.params.id }).exec();
-    const teacher = await Teacher.find({_id:req.params.id}).exec()
+    const teacher = await Teacher.find({ _id: req.params.id }).exec()
     res.status(200).json({
         classes,
         teacher
@@ -146,14 +148,14 @@ exports.post_lecture = [
             lectureName: req.body.lecture_name,
             class: req.params.id,
             dateTime: new Date(),
-            attendance:[],
+            attendance: [],
 
         })
 
         const cls = await Class.findById(req.params.id).exec();
         cls.students.map((stud) => {
             lecture.attendance.push({
-                student:stud,
+                student: stud,
             })
         })
         await lecture.save();
@@ -168,40 +170,48 @@ exports.post_lecture = [
 
 exports.mark_attendance = asyncHandler(async function (req, res, next) {
     const lecid = req.body.lectureID.split("+")[0]
-    const lecture = await Lecture.findById(lecid);
+    const randval = req.body.lectureID.split("+")[1]
+    if (randval == qrval) {
+        res.status(200).json({
+            error: "Invalid QR"
+        })
+    } else {
+        qrval = randval;
+        const lecture = await Lecture.findById(lecid);
 
-    if (!lecture) {
-        return res.status(404).json({
-            status: "error",
-            message: "Lecture not found"
+        if (!lecture) {
+            return res.status(404).json({
+                status: "error",
+                message: "Lecture not found"
+            });
+        }
+
+        const studentRecord = lecture.attendance.find(record => record.student.toString() === req.body.studentID);
+
+        if (!studentRecord) {
+            return res.status(404).json({
+                status: "error",
+                message: "Student not found in attendance list"
+            });
+        }
+
+        studentRecord.status = "P";
+
+        await lecture.save();
+
+        res.status(200).json({
+            status: "success",
+            message: "Attendance marked successfully !!"
         });
     }
-
-    const studentRecord = lecture.attendance.find(record => record.student.toString() === req.body.studentID);
-
-    if (!studentRecord) {
-        return res.status(404).json({
-            status: "error",
-            message: "Student not found in attendance list"
-        });
-    }
-
-    studentRecord.status = "P";
-
-    await lecture.save();
-
-    res.status(200).json({
-        status: "success",
-        message: "Attendance marked successfully !!"
-    });
 });
 
 
-exports.get_stud = asyncHandler(async function(req,res,next) {
+exports.get_stud = asyncHandler(async function (req, res, next) {
     const stud = await Student.findById(req.params.studid).populate("classes")
-    if(!stud) {
+    if (!stud) {
         res.status(500).json({
-            status:"Error"
+            status: "Error"
         })
     }
 
@@ -210,25 +220,25 @@ exports.get_stud = asyncHandler(async function(req,res,next) {
     })
 })
 
-exports.verify_admin = async function(req,res,next) {
+exports.verify_admin = async function (req, res, next) {
     const authHeader = req.headers.authorization;
     if (typeof authHeader != 'undefined') {
         const token = authHeader.split(' ')[1];
         // console.log(token)
         jwt.verify(token, process.env.SECRET, (err, user) => {
             if (err) {
-                return res.status(401).json({status: "Access is Denied"})
+                return res.status(401).json({ status: "Access is Denied" })
             }
             req.auth = user._id
 
-            if(user.role == "admin") {
+            if (user.role == "admin") {
                 next();
             } else {
                 res.status(403).json({
                     status: "Forbidden"
                 })
             }
-            
+
         });
     } else {
         res.status(401).json({
@@ -238,25 +248,25 @@ exports.verify_admin = async function(req,res,next) {
 }
 
 
-exports.verify_student = async function(req,res,next) {
+exports.verify_student = async function (req, res, next) {
     const authHeader = req.headers.authorization;
     if (typeof authHeader != 'undefined') {
         const token = authHeader.split(' ')[1];
         // console.log(token)
         jwt.verify(token, process.env.SECRET, (err, user) => {
             if (err) {
-                return res.status(401).json({status: "Access is Denied"})
+                return res.status(401).json({ status: "Access is Denied" })
             }
             req.auth = user._id
 
-            if(user.role == "student") {
+            if (user.role == "student") {
                 next();
             } else {
                 res.status(403).json({
                     status: "Forbidden"
                 })
             }
-            
+
         });
     } else {
         res.status(401).json({
@@ -266,19 +276,19 @@ exports.verify_student = async function(req,res,next) {
 }
 
 
-exports.addstud_to_class = asyncHandler(async function(req,res,next) {
+exports.addstud_to_class = asyncHandler(async function (req, res, next) {
     const cls = await Class.findById(req.body.classID);
     const stud = await Student.findById(req.body.studentID);
 
-    if(!cls) {
+    if (!cls) {
         res.status(200).json({
-            status:"Class not found"
+            status: "Class not found"
         })
     }
 
     if (!stud) {
         res.status(200).json({
-            status:"Student not found"
+            status: "Student not found"
         })
     }
 
@@ -289,21 +299,21 @@ exports.addstud_to_class = asyncHandler(async function(req,res,next) {
     await stud.save();
 
     res.status(200).json({
-        status:"Class Added successfully"
+        status: "Class Added successfully"
     })
 })
 
-exports.get_lecture = asyncHandler(async function(req,res,next) {
+exports.get_lecture = asyncHandler(async function (req, res, next) {
     const lecture = await Lecture.findById(req.params.lectureid)
-                                 .populate({
-                                     path: 'attendance.student',
-                                     model: 'student'
-                                 })
-                                 .exec();
+        .populate({
+            path: 'attendance.student',
+            model: 'student'
+        })
+        .exec();
 
-    if(!lecture) {
+    if (!lecture) {
         res.status(500).json({
-            error:"Internal Server Error"
+            error: "Internal Server Error"
         })
     }
 
@@ -313,7 +323,7 @@ exports.get_lecture = asyncHandler(async function(req,res,next) {
 })
 
 
-exports.get_teachers = asyncHandler(async function(req,res,next) {
+exports.get_teachers = asyncHandler(async function (req, res, next) {
     const teachers = await Teacher.find({}).exec();
     res.status(200).json({
         teachers
@@ -323,7 +333,7 @@ exports.get_teachers = asyncHandler(async function(req,res,next) {
 
 
 
-exports.get_classes = asyncHandler(async function(req,res,next) {
+exports.get_classes = asyncHandler(async function (req, res, next) {
     const classes = await Class.find({}).exec();
     res.status(200).json({
         classes
@@ -331,12 +341,12 @@ exports.get_classes = asyncHandler(async function(req,res,next) {
 })
 
 
-exports.get_students = asyncHandler(async function(req,res,next) {
+exports.get_students = asyncHandler(async function (req, res, next) {
     const students = await Student.find({}).exec();
     res.status(200).json({
         students
     })
-    
+
 })
 // we need the object id of the teacher we want to assign the class to
 // we need the object id of the class we want to assign the teacher
