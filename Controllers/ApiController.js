@@ -182,7 +182,7 @@ exports.mark_attendance = asyncHandler(async function (req, res, next) {
 
     if (!lecture) {
         return res.status(404).json({
-            status: "error",
+            error: "error",
             message: "Lecture not found"
         });
     }
@@ -190,7 +190,7 @@ exports.mark_attendance = asyncHandler(async function (req, res, next) {
 
 
         if (lecture.randvalues.includes(randval)) {
-            return res.status(500).json({
+            return res.status(200).json({
                 error: "Rand value already exists"
             });
         }
@@ -204,9 +204,15 @@ exports.mark_attendance = asyncHandler(async function (req, res, next) {
 
     if (!studentRecord) {
         return res.status(404).json({
-            status: "error",
+            error: "error",
             message: "Student not found in attendance list"
         });
+    }
+
+    if(studentRecord.status == "P") {
+        res.status(200).json({
+            message:"Attendance already marked"
+        })
     }
 
     studentRecord.status = "P";
