@@ -155,6 +155,7 @@ exports.post_lecture = [
             class: req.params.id,
             dateTime: new Date(),
             attendance: [],
+            randvalues:[],
 
         })
 

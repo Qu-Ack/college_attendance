@@ -3,6 +3,16 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 
+function generateRandomString(length) {
+    const charset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let randomString = '';
+    for (let i = 0; i < length; i++) {
+        const randomIndex = Math.floor(Math.random() * charset.length);
+        randomString += charset[randomIndex];
+    }
+    return randomString;
+}
+
 const LectureSchema = new Schema({
     lectureName: String, 
     class: {type: Schema.Types.ObjectId, ref:"Class", required:true},
