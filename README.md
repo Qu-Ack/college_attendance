@@ -1,6 +1,21 @@
 # college_attendance
 
 
+
+
+
+This is the repo where the backend is present. All the endpoints are provided, all the routes are in the /Routers/ApiRouter and all the functions in the routes are in /Controllers
+
+this repo is hosted on railway
+
+
+
+
+
+
+
+Though Process
+
 we will have a page dedicated to making a class after making a class the teacher would have an option to add students to the classthat class will also have an option to schedule a lecture and will show all the previous lectures that were occured in that class
 each lecture will have it's own page that will show the attendance percentage of that lecture and the list of students present in that particular lecture
 
