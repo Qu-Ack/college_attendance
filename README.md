@@ -9,6 +9,18 @@ This is the repo where the backend is present. All the endpoints are provided, a
 this repo is hosted on railway
 
 
+*admin credentials*
+username=>admin
+password=>admin123
+
+*sample teacher credentials*
+username=>sarthak
+password=>12345678
+
+*sample student credentials*
+studentid=>2023KUCP1010
+password=>12345678
+
 
 
 
