@@ -66,7 +66,8 @@ app.use((request, response, next) => {
 });
 
 server.listen(process.env.PORT || 5000, "0.0.0.0", () => {
-  console.log("server started....");
+  console.log(`DB STRING IS ${process.env.DB_STRING}`);
+  console.log(`server started....${process.env.PORT}`);
 });
 
 app.set("io", io);
